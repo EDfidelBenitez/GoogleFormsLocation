@@ -1,30 +1,41 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <base target="_top">
-  </head>
-  <body>
-    
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirigir a Google Forms con Ubicación</title>
+</head>
+<body>
+    <h1>Obteniendo tu ubicación...</h1>
+    <p>Por favor, permite el acceso a tu ubicación.</p>
+
     <script>
-      
-      var formURL = "https://docs.google.com/forms/d/e/SetYourFormURL/viewform?usp=pp_url&entry.612911609=";
-
-      function getLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(showPosition);
-        } else { 
-          showPosition(null);
+        // Obtener la ubicación del usuario
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(redirectToForm);
+            } else {
+                alert("Geolocalización no soportada por tu navegador.");
+            }
         }
-      }
-      
-      function showPosition(position) {
-        var loc = position ? position.coords.latitude + "," + position.coords.longitude : "";
-        window.location.href = formURL + loc;
-      }
 
-      getLocation();
-      
+        // Redirigir al formulario con la latitud y longitud del usuario
+        function redirectToForm(position) {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+
+            // URL base del formulario de Google Forms
+            var formURL = "https://docs.google.com/forms/d/e/1FAIpQLSfZDJDIR6N0SVc-ftpPqH1sbEWLpo2CR06-FmlqzDGU-SOfGw/viewform?usp=pp_url";
+
+            // Construir el URL con las coordenadas del usuario
+            var fullURL = formURL + "&entry.155571349=" + lat + "," + lng;
+
+            // Redirigir al formulario de Google Forms
+            window.location.href = fullURL;
+        }
+
+        // Llamar a la función para obtener la ubicación al cargar la página
+        getLocation();
     </script>
-
-  </body>
+</body>
 </html>
